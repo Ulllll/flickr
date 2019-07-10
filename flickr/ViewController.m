@@ -22,7 +22,8 @@ static const NSString *identifierForActions = @"LCTReminderCategory";
 
 @implementation ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 
     self.navigationItem.title = @"Find image";
