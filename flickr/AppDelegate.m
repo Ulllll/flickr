@@ -26,21 +26,17 @@
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];
-    // Получаем текущий notificationCenter
+
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-    
-    // Устанавливаем делегат
     center.delegate = self;
     
-    // Указываем тип пушей для работы
     UNAuthorizationOptions options = UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge;
     
-    // Запрашиваем доступ на работу с пушами
     [center requestAuthorizationWithOptions:options
                           completionHandler:^(BOOL granted, NSError * _Nullable error) {
                               if (!granted)
                               {
-                                  NSLog(@"Доступ не дали");
+                                  NSLog(@"No");
                               }
                           }];
     return YES;
@@ -75,37 +71,11 @@
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
        willPresentNotification:(UNNotification *)notification
-         withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler //показано уведомление
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
 {
     if (completionHandler)
     {
         completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
-    }
-}
-
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center
-didReceiveNotificationResponse:(UNNotificationResponse *)response
-         withCompletionHandler:(void(^)(void))completionHandler //нажптие на уведомление (ответ на уведомление)
-{
-    UNNotificationContent *content = response.notification.request.content;
-    if (content.userInfo[@"color"])
-    {
-        NSString *color = content.userInfo[@"color"];
-        UIColor *uiColor = UIColor.blueColor;
-        
-        if([color isEqualToString:@"redColor"])
-        {
-            uiColor = UIColor.redColor;
-        }
-        
-        self.window.rootViewController.view.backgroundColor = uiColor;
-        
-        // Направляем куда-то в зависимости от параметров пуша
-    }
-    
-    if (completionHandler)
-    {
-        completionHandler();
     }
 }
 

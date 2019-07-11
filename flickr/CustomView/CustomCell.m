@@ -25,6 +25,7 @@
         _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height)];
         _imgView.backgroundColor = [UIColor colorWithRed:135.0/255.0 green:206.0/255.0 blue:250.0/255.0 alpha:1];
         [self.contentView addSubview:_imgView];
+        
         [_imgView didMoveToSuperview];
     }
     return self;

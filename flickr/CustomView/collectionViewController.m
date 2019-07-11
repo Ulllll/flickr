@@ -6,19 +6,19 @@
 //  Copyright © 2019 Анастасия Рябова. All rights reserved.
 //
 
-#import "collectionViewController.h"
-#import "CustomCell.h"
 #import "NetworkService.h"
 #import "NetworkServiceProtocol.h"
 #import "cellView.h"
+#import "CustomCell.h"
+#import "collectionViewController.h"
 
 @interface collectionViewController() <NetworkServiceOutputProtocol>
 
+@property (nonatomic, strong) NSString *searchString;
 @property (nonatomic, strong) NetworkService *networkService;
 @property (nonatomic, copy) NSArray<UIImage *> *img;
 @property (nonatomic, assign) NSInteger countPhotos;
 @property (nonatomic, assign) NSInteger pageNow;
-@property (nonatomic, copy) NSString *searchString;
 
 @end
 
@@ -29,14 +29,11 @@
     self = [super initWithCollectionViewLayout:layout];
     if (self)
     {
-        _img = [NSArray new];
-        _countPhotos = 25;
-        _pageNow = 0;
-        _searchString = @"";
-        
         _networkService = [NetworkService new];
         _networkService.output = self;
         [_networkService configureUrlSessionWithParams:nil];
+        
+        _img = [NSArray new];
     }
     return self;
 }
@@ -137,7 +134,7 @@
     UIImage *newImg = [[UIImage alloc] initWithData:dataRecieved];
     NSMutableArray *newArray = [[NSMutableArray alloc] initWithArray:self.img.mutableCopy];
     [newArray addObject:newImg];
-    self.img = newArray.copy;
+    self.img = [newArray copy];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(self.img.count-1) inSection:0];
     [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
